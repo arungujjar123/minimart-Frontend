@@ -21,7 +21,7 @@ function Orders() {
 
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/orders", {
+      .get("https://vercel-backend-zeta-green.vercel.app/api/orders", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -47,7 +47,7 @@ function Orders() {
     setDeletingOrderId(orderId);
 
     try {
-      await axios.delete(`http://localhost:5000/api/orders/${orderId}`, {
+      await axios.delete(`https://vercel-backend-zeta-green.vercel.app/api/orders/${orderId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

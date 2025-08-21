@@ -15,7 +15,7 @@ function ProductDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/${id}`)
+      .get(`https://vercel-backend-zeta-green.vercel.app/api/products/${id}`)
       .then((res) => {
         setProduct(res.data);
         setLoading(false);

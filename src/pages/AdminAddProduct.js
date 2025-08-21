@@ -67,7 +67,7 @@ function AdminAddProduct() {
       delete productData.image;
 
       await axios.post(
-        "http://localhost:5000/api/admin/products",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/products",
         productData,
         {
           headers: { Authorization: `Bearer ${token}` },

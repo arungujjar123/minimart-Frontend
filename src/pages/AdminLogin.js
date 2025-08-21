@@ -18,7 +18,7 @@ function AdminLogin() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/login",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/login",
         credentials
       );
       localStorage.setItem("adminToken", response.data.token);

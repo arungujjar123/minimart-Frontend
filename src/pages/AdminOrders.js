@@ -42,7 +42,7 @@ function AdminOrders() {
     const token = localStorage.getItem("adminToken");
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/orders",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/orders",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -65,7 +65,7 @@ function AdminOrders() {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/orders/${orderId}`,
+        `https://vercel-backend-zeta-green.vercel.app/api/admin/orders/${orderId}`,
         { order_status: newStatus },
         {
           headers: { Authorization: `Bearer ${token}` },

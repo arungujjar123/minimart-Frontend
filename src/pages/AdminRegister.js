@@ -53,7 +53,7 @@ function AdminRegister() {
       console.log("Secret key being sent:", JSON.stringify(formData.secretKey));
 
       const response = await axios.post(
-        "http://localhost:5000/api/admin/register",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/register",
         requestData
       );
 

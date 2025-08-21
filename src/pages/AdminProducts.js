@@ -33,7 +33,7 @@ function AdminProducts() {
     const token = localStorage.getItem("adminToken");
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/products",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/products",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -73,7 +73,7 @@ function AdminProducts() {
       delete updateData.image; // Remove the old field
 
       await axios.put(
-        `http://localhost:5000/api/admin/products/${productId}`,
+        `https://vercel-backend-zeta-green.vercel.app/api/admin/products/${productId}`,
         updateData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -114,7 +114,7 @@ function AdminProducts() {
     const token = localStorage.getItem("adminToken");
     try {
       await axios.delete(
-        `http://localhost:5000/api/admin/products/${productId}`,
+        `https://vercel-backend-zeta-green.vercel.app/api/admin/products/${productId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

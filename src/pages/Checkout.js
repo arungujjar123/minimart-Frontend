@@ -27,7 +27,7 @@ function Checkout() {
 
     // Fetch cart to show items before checkout
     axios
-      .get("http://localhost:5000/api/cart", {
+      .get("https://vercel-backend-zeta-green.vercel.app/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -65,7 +65,7 @@ function Checkout() {
 
       // Create order with simple checkout
       const response = await axios.post(
-        "http://localhost:5000/api/payment/simple-checkout",
+        "https://vercel-backend-zeta-green.vercel.app/api/payment/simple-checkout",
         {
           shipping_address: shippingAddress,
         },
@@ -105,7 +105,7 @@ function Checkout() {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:5000/api/orders/checkout",
+        "https://vercel-backend-zeta-green.vercel.app/api/orders/checkout",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

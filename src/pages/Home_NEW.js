@@ -10,7 +10,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/products")
+      .get("https://vercel-backend-zeta-green.vercel.app/api/products")
       .then((res) => {
         setProducts(res.data);
         setLoading(false);

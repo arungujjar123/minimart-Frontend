@@ -17,7 +17,7 @@ function Home() {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
+        const response = await axios.get("https://vercel-backend-zeta-green.vercel.app/api/products");
         setAllProducts(response.data);
         setProducts(response.data); // Show all products initially
         setLoading(false);
@@ -68,7 +68,7 @@ function Home() {
       setSearching(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/products/search?q=${encodeURIComponent(
+          `https://vercel-backend-zeta-green.vercel.app/api/products/search?q=${encodeURIComponent(
             query
           )}`
         );

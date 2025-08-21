@@ -31,7 +31,7 @@ function AdminDashboard() {
     const token = localStorage.getItem("adminToken");
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/dashboard",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

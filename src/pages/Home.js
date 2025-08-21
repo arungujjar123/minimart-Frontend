@@ -23,9 +23,9 @@ function Home() {
       setLoading(true);
       try {
         const [productsResponse, categoriesResponse] = await Promise.all([
-          axios.get("http://localhost:5000/api/products"),
+          axios.get("https://vercel-backend-zeta-green.vercel.app/api/products"),
           axios
-            .get("http://localhost:5000/api/admin/categories", {
+            .get("https://vercel-backend-zeta-green.vercel.app/api/admin/categories", {
               headers: {
                 "x-auth-token": localStorage.getItem("adminToken") || "",
                 Authorization: `Bearer ${
@@ -145,7 +145,7 @@ function Home() {
       setSearching(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/products/search?q=${encodeURIComponent(
+          `https://vercel-backend-zeta-green.vercel.app/api/products/search?q=${encodeURIComponent(
             query
           )}`
         );

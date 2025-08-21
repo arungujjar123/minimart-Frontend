@@ -54,7 +54,7 @@ export const CartProvider = ({ children }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "https://vercel-backend-zeta-green.vercel.app/api/cart/add",
         { productId, quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );

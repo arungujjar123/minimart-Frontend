@@ -27,7 +27,7 @@ function Checkout() {
 
     // Fetch cart to show items before checkout
     axios
-      .get("http://localhost:5000/api/cart", {
+      .get("https://vercel-backend-zeta-green.vercel.app/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -83,7 +83,7 @@ function Checkout() {
 
       // Create Razorpay order
       const orderResponse = await axios.post(
-        "http://localhost:5000/api/payment/create-order",
+        "https://vercel-backend-zeta-green.vercel.app/api/payment/create-order",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -102,7 +102,7 @@ function Checkout() {
           try {
             // Verify payment
             await axios.post(
-              "http://localhost:5000/api/payment/verify-payment",
+              "https://vercel-backend-zeta-green.vercel.app/api/payment/verify-payment",
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -164,7 +164,7 @@ function Checkout() {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:5000/api/orders/checkout",
+        "https://vercel-backend-zeta-green.vercel.app/api/orders/checkout",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -19,7 +19,7 @@ function Cart() {
     }
 
     axios
-      .get("http://localhost:5000/api/cart", {
+      .get("https://vercel-backend-zeta-green.vercel.app/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

@@ -30,7 +30,7 @@ function Register() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("https://vercel-backend-zeta-green.vercel.app/api/auth/register", {
         email,
         password,
       });
