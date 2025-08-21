@@ -23,7 +23,7 @@ export const CartProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get("http://localhost:5000/api/cart", {
+      const response = await axios.get("https://vercel-backend-zeta-green.vercel.app/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -97,7 +97,7 @@ export const CartProvider = ({ children }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/cart/remove",
+        "https://vercel-backend-zeta-green.vercel.app/api/cart/remove",
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -139,7 +139,7 @@ export const CartProvider = ({ children }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/cart/update",
+        "https://vercel-backend-zeta-green.vercel.app/api/cart/update",
         { productId, quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
