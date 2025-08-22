@@ -71,7 +71,7 @@ function AdminCategories() {
     const token = localStorage.getItem("adminToken");
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/admin/products",
+        "https://vercel-backend-zeta-green.vercel.app/api/admin/products",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

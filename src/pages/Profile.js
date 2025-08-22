@@ -38,11 +38,14 @@ function Profile() {
         }
       );
       setUser(response.data);
+      // Store user in localStorage for navbar
+      localStorage.setItem("user", JSON.stringify(response.data));
       setLoading(false);
     } catch (error) {
       console.error("Error fetching profile:", error);
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         navigate("/login");
       }
       setLoading(false);
@@ -58,6 +61,8 @@ function Profile() {
       await axios.put("https://vercel-backend-zeta-green.vercel.app/api/auth/profile", user, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      // Update user in localStorage after profile update
+      localStorage.setItem("user", JSON.stringify(user));
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);

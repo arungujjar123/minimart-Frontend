@@ -229,20 +229,23 @@ function Home() {
             </p>
 
             {/* Admin Access Section */}
-            <div className="admin-access-banner">
-              <div className="admin-banner-content">
-                <h3>🔧 Admin Access</h3>
-                <p>Manage your store, products, and orders</p>
-                <div className="admin-banner-buttons">
-                  <Link to="/admin/login" className="btn btn-warning">
-                    Admin Login
-                  </Link>
-                  <Link to="/admin/register" className="btn btn-info">
-                    Register as Admin
-                  </Link>
+            {/* Only show Admin Access if not logged in as user or if adminToken is present */}
+            {(!localStorage.getItem("token") || localStorage.getItem("adminToken")) && (
+              <div className="admin-access-banner">
+                <div className="admin-banner-content">
+                  <h3>🔧 Admin Access</h3>
+                  <p>Manage your store, products, and orders</p>
+                  <div className="admin-banner-buttons">
+                    <Link to="/admin/login" className="btn btn-warning">
+                      Admin Login
+                    </Link>
+                    <Link to="/admin/register" className="btn btn-info">
+                      Register as Admin
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </>
         )}
 

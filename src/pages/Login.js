@@ -24,6 +24,18 @@ function Login() {
       );
 
       localStorage.setItem("token", response.data.token);
+
+      // Fetch user profile and store in localStorage for navbar
+      try {
+        const profileRes = await axios.get(
+          "https://vercel-backend-zeta-green.vercel.app/api/auth/profile",
+          { headers: { Authorization: `Bearer ${response.data.token}` } }
+        );
+        localStorage.setItem("user", JSON.stringify(profileRes.data));
+      } catch {
+        localStorage.removeItem("user");
+      }
+
       navigate("/");
     } catch (err) {
       console.error("Login error:", err);

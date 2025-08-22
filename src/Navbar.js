@@ -7,6 +7,23 @@ function Navbar() {
   const location = useLocation();
   const { cartItemCount, clearCart } = useCart();
   const token = localStorage.getItem("token");
+  // Try to get user name from localStorage (set after login/profile fetch)
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // Try to get user name from localStorage (should be set after login/profile fetch)
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        setUserName(parsed.name || "");
+      } catch {
+        setUserName("");
+      }
+    } else {
+      setUserName("");
+    }
+  }, [token]);
   const [searchQuery, setSearchQuery] = useState("");
 
   // Update search query when URL changes
@@ -81,7 +98,10 @@ function Navbar() {
           <Link to="/orders">Orders</Link>
           {token ? (
             <>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile" className="profile-link" style={{ display: "flex", flexDirection: "column", alignItems: "center", textDecoration: "none" }}>
+                <span style={{ fontSize: "1.7rem", display: "block" }}>👤</span>
+                <span style={{ fontSize: "0.9rem", color: "#333", marginTop: "0.1rem" }}>{userName || "Profile"}</span>
+              </Link>
               <button onClick={handleLogout} className="btn btn-danger">
                 Logout
               </button>
@@ -97,15 +117,17 @@ function Navbar() {
             </>
           )}
 
-          {/* Admin Access - Always visible */}
-          <div className="admin-access-links">
-            <Link to="/admin/login" className="btn btn-warning admin-btn">
-              Admin Login
-            </Link>
-            <Link to="/admin/register" className="btn btn-info admin-btn">
-              Admin Register
-            </Link>
-          </div>
+          {/* Admin Access - Only visible if not logged in as user or if adminToken is present */}
+          {(!token || localStorage.getItem("adminToken")) && (
+            <div className="admin-access-links">
+              <Link to="/admin/login" className="btn btn-warning admin-btn">
+                Admin Login
+              </Link>
+              <Link to="/admin/register" className="btn btn-info admin-btn">
+                Admin Register
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
