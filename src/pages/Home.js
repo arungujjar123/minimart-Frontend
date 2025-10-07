@@ -7,6 +7,7 @@ import PromoCarousel from "../components/PromoCarousel";
 function Home() {
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,21 +24,71 @@ function Home() {
       setLoading(true);
       try {
         const [productsResponse, categoriesResponse] = await Promise.all([
-          axios.get("https://vercel-backend-zeta-green.vercel.app/api/products"),
+          axios.get(
+            "https://vercel-backend-zeta-green.vercel.app/api/products"
+          ),
           axios
-            .get("https://vercel-backend-zeta-green.vercel.app/api/admin/categories", {
-              headers: {
-                "x-auth-token": localStorage.getItem("adminToken") || "",
-                Authorization: `Bearer ${
-                  localStorage.getItem("adminToken") || ""
-                }`,
-              },
-            })
+            .get(
+              "https://vercel-backend-zeta-green.vercel.app/api/admin/categories",
+              {
+                headers: {
+                  "x-auth-token": localStorage.getItem("adminToken") || "",
+                  Authorization: `Bearer ${
+                    localStorage.getItem("adminToken") || ""
+                  }`,
+                },
+              }
+            )
             .catch(() => ({ data: [] })), // Fallback if no admin access
         ]);
 
         setAllProducts(productsResponse.data);
         setProducts(productsResponse.data); // Show all products initially
+
+        // Create featured products from different categories on client side
+        const allProducts = productsResponse.data;
+        const productsByCategory = {};
+        allProducts.forEach((product) => {
+          const category = product.category || "Uncategorized";
+          if (!productsByCategory[category]) {
+            productsByCategory[category] = [];
+          }
+          productsByCategory[category].push(product);
+        });
+
+        // Get one product from each category (max 5)
+        const featured = [];
+        const categories = Object.keys(productsByCategory);
+        const maxProducts = 5;
+
+        for (let i = 0; i < Math.min(categories.length, maxProducts); i++) {
+          const category = categories[i];
+          const categoryProducts = productsByCategory[category];
+          if (categoryProducts && categoryProducts.length > 0) {
+            featured.push(categoryProducts[0]);
+          }
+        }
+
+        // If we have less than 5 products, fill with additional products
+        if (
+          featured.length < maxProducts &&
+          allProducts.length > featured.length
+        ) {
+          const usedIds = featured.map((p) => p._id);
+          const remainingProducts = allProducts.filter(
+            (p) => !usedIds.includes(p._id)
+          );
+          const remainingCount = Math.min(
+            maxProducts - featured.length,
+            remainingProducts.length
+          );
+
+          for (let i = 0; i < remainingCount; i++) {
+            featured.push(remainingProducts[i]);
+          }
+        }
+
+        setFeaturedProducts(featured);
         setCategories(categoriesResponse.data || []);
 
         // Calculate max price from products
@@ -52,7 +103,24 @@ function Home() {
         setLoading(false);
       } catch (err) {
         console.error("Error fetching data:", err);
-        setLoading(false);
+        // Fallback: try to fetch just products if the full request fails
+        axios
+          .get("https://vercel-backend-zeta-green.vercel.app/api/products")
+          .then((res) => {
+            setAllProducts(res.data);
+            setProducts(res.data);
+            setFeaturedProducts(res.data.slice(0, 5)); // Use first 5 as featured
+            if (res.data.length > 0) {
+              const maxProductPrice = Math.max(...res.data.map((p) => p.price));
+              setMaxPrice(Math.ceil(maxProductPrice));
+              setPriceRange([0, Math.ceil(maxProductPrice)]);
+            }
+            setLoading(false);
+          })
+          .catch((fallbackErr) => {
+            console.error("Error fetching fallback products:", fallbackErr);
+            setLoading(false);
+          });
       }
     };
 
@@ -175,16 +243,14 @@ function Home() {
 
       <div className="container">
         {searchQuery ? (
-          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-            <h1 style={{ color: "#333", marginBottom: "1rem" }}>
-              Search Results for "{searchQuery}" 🔍
-            </h1>
+          <div className="search-results-header">
+            <h1>Search Results for "{searchQuery}" 🔍</h1>
             {searching && (
               <div
                 style={{
                   color: "#667eea",
                   fontSize: "0.9rem",
-                  marginBottom: "1rem",
+                  marginTop: "1rem",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -208,44 +274,26 @@ function Home() {
           </div>
         ) : (
           <>
-            <h1
-              style={{
-                textAlign: "center",
-                marginBottom: "2rem",
-                color: "#333",
-              }}
-            >
-              Welcome to MiniMart 🛒
-            </h1>
-            <p
-              style={{
-                textAlign: "center",
-                color: "#666",
-                fontSize: "1.1rem",
-                marginBottom: "2rem",
-              }}
-            >
-              Discover amazing products at unbeatable prices!
-            </p>
+            <div className="homepage-welcome">
+              <h1>Welcome to MiniMart 🛒</h1>
+              <p>Discover amazing products at unbeatable prices!</p>
+            </div>
 
             {/* Admin Access Section */}
-            {/* Only show Admin Access if not logged in as user or if adminToken is present */}
-            {(!localStorage.getItem("token") || localStorage.getItem("adminToken")) && (
-              <div className="admin-access-banner">
-                <div className="admin-banner-content">
-                  <h3>🔧 Admin Access</h3>
-                  <p>Manage your store, products, and orders</p>
-                  <div className="admin-banner-buttons">
-                    <Link to="/admin/login" className="btn btn-warning">
-                      Admin Login
-                    </Link>
-                    <Link to="/admin/register" className="btn btn-info">
-                      Register as Admin
-                    </Link>
-                  </div>
+            <div className="admin-access-banner">
+              <div className="admin-banner-content">
+                <h3>🔧 Admin Access</h3>
+                <p>Manage your store, products, and orders</p>
+                <div className="admin-banner-buttons">
+                  <Link to="/admin/login" className="btn btn-warning">
+                    Admin Login
+                  </Link>
+                  <Link to="/admin/register" className="btn btn-info">
+                    Register as Admin
+                  </Link>
                 </div>
               </div>
-            )}
+            </div>
           </>
         )}
 
@@ -411,7 +459,7 @@ function Home() {
           </div>
         ) : (
           <>
-            {!searchQuery && <ProductCarousel products={products} />}
+            {!searchQuery && <ProductCarousel products={featuredProducts} />}
 
             <div className="products-grid">
               {products.map((product) => (

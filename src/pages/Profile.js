@@ -58,9 +58,13 @@ function Profile() {
 
     const token = localStorage.getItem("token");
     try {
-      await axios.put("https://vercel-backend-zeta-green.vercel.app/api/auth/profile", user, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.put(
+        "https://vercel-backend-zeta-green.vercel.app/api/auth/profile",
+        user,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       // Update user in localStorage after profile update
       localStorage.setItem("user", JSON.stringify(user));
       alert("Profile updated successfully!");
@@ -87,7 +91,6 @@ function Profile() {
 
     setChangingPassword(true);
     const token = localStorage.getItem("token");
-
     try {
       await axios.put(
         "https://vercel-backend-zeta-green.vercel.app/api/auth/change-password",

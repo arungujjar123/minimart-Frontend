@@ -26,6 +26,7 @@ function App() {
         future={{
           v7_startTransition: true,
           v7_relativeSplatPath: true,
+          // it adopt the new features of React Router v7
         }}
       >
         <Routes>

@@ -6,13 +6,61 @@ import PromoCarousel from "../components/PromoCarousel";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Fetch all products
     axios
       .get("https://vercel-backend-zeta-green.vercel.app/api/products")
       .then((res) => {
-        setProducts(res.data);
+        const allProducts = res.data;
+        setProducts(allProducts);
+
+        // Create featured products from different categories on client side
+        const productsByCategory = {};
+        allProducts.forEach((product) => {
+          const category = product.category || "Uncategorized";
+          if (!productsByCategory[category]) {
+            productsByCategory[category] = [];
+          }
+          productsByCategory[category].push(product);
+        });
+
+        // Get one product from each category (max 5)
+        const featured = [];
+        const categories = Object.keys(productsByCategory);
+        const maxProducts = 5;
+
+        for (let i = 0; i < Math.min(categories.length, maxProducts); i++) {
+          const category = categories[i];
+          const categoryProducts = productsByCategory[category];
+          if (categoryProducts && categoryProducts.length > 0) {
+            // Get the first product from this category
+            featured.push(categoryProducts[0]);
+          }
+        }
+
+        // If we have less than 5 products, fill with additional products
+        if (
+          featured.length < maxProducts &&
+          allProducts.length > featured.length
+        ) {
+          const usedIds = featured.map((p) => p._id);
+          const remainingProducts = allProducts.filter(
+            (p) => !usedIds.includes(p._id)
+          );
+          const remainingCount = Math.min(
+            maxProducts - featured.length,
+            remainingProducts.length
+          );
+
+          for (let i = 0; i < remainingCount; i++) {
+            featured.push(remainingProducts[i]);
+          }
+        }
+
+        setFeaturedProducts(featured);
         setLoading(false);
       })
       .catch((err) => {
@@ -58,8 +106,8 @@ function Home() {
           </div>
         ) : (
           <>
-            {/* Featured Product Carousel - Show only first 5 products */}
-            <ProductCarousel products={products.slice(0, 5)} />
+            {/* Featured Product Carousel - Show products from different categories */}
+            <ProductCarousel products={featuredProducts} />
 
             {/* All Products Grid */}
             <div style={{ marginTop: "4rem" }}>

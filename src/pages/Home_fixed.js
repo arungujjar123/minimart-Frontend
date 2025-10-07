@@ -7,6 +7,7 @@ import PromoCarousel from "../components/PromoCarousel";
 function Home() {
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [searching, setSearching] = useState(false);
@@ -17,13 +18,73 @@ function Home() {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("https://vercel-backend-zeta-green.vercel.app/api/products");
-        setAllProducts(response.data);
-        setProducts(response.data); // Show all products initially
+        const response = await axios.get(
+          "https://vercel-backend-zeta-green.vercel.app/api/products"
+        );
+        const allProducts = response.data;
+
+        setAllProducts(allProducts);
+        setProducts(allProducts); // Show all products initially
+
+        // Create featured products from different categories on client side
+        const productsByCategory = {};
+        allProducts.forEach((product) => {
+          const category = product.category || "Uncategorized";
+          if (!productsByCategory[category]) {
+            productsByCategory[category] = [];
+          }
+          productsByCategory[category].push(product);
+        });
+
+        // Get one product from each category (max 5)
+        const featured = [];
+        const categories = Object.keys(productsByCategory);
+        const maxProducts = 5;
+
+        for (let i = 0; i < Math.min(categories.length, maxProducts); i++) {
+          const category = categories[i];
+          const categoryProducts = productsByCategory[category];
+          if (categoryProducts && categoryProducts.length > 0) {
+            featured.push(categoryProducts[0]);
+          }
+        }
+
+        // If we have less than 5 products, fill with additional products
+        if (
+          featured.length < maxProducts &&
+          allProducts.length > featured.length
+        ) {
+          const usedIds = featured.map((p) => p._id);
+          const remainingProducts = allProducts.filter(
+            (p) => !usedIds.includes(p._id)
+          );
+          const remainingCount = Math.min(
+            maxProducts - featured.length,
+            remainingProducts.length
+          );
+
+          for (let i = 0; i < remainingCount; i++) {
+            featured.push(remainingProducts[i]);
+          }
+        }
+
+        setFeaturedProducts(featured);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching products:", err);
-        setLoading(false);
+        // Fallback: try to fetch just products if featured endpoint fails
+        try {
+          const response = await axios.get(
+            "https://vercel-backend-zeta-green.vercel.app/api/products"
+          );
+          setAllProducts(response.data);
+          setProducts(response.data);
+          setFeaturedProducts(response.data.slice(0, 5)); // Use first 5 as featured
+          setLoading(false);
+        } catch (fallbackErr) {
+          console.error("Error fetching fallback products:", fallbackErr);
+          setLoading(false);
+        }
       }
     };
 
@@ -194,7 +255,7 @@ function Home() {
           </div>
         ) : (
           <>
-            {!searchQuery && <ProductCarousel products={products} />}
+            {!searchQuery && <ProductCarousel products={featuredProducts} />}
 
             <div className="products-grid">
               {products.map((product) => (

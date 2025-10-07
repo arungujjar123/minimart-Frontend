@@ -16,7 +16,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://vercel-backend-zeta-green.vercel.app/api/auth/login",
+        "https://vercel-backend-zeta-green.vercel.app-zeta-green.vercel.app/api/auth/login",
         {
           email,
           password,
@@ -48,17 +48,18 @@ function Login() {
   };
 
   return (
-    <div className="container fade-in">
-      <div className="form-container">
-        <h2>Welcome Back! 👋</h2>
-        <p style={{ textAlign: "center", color: "#666", marginBottom: "2rem" }}>
-          Sign in to your account
-        </p>
+    <div className="user-form-page">
+      <div className="user-form-container">
+        <div className="user-form-header">
+          <div className="user-form-icon">👋</div>
+          <h2 className="user-form-title">Welcome Back!</h2>
+          <p className="user-form-subtitle">Sign in to your account</p>
+        </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="user-auth-error">{error}</div>}
 
         <form onSubmit={handleLogin}>
-          <div className="form-group">
+          <div className="user-form-group">
             <input
               type="email"
               value={email}
@@ -69,7 +70,7 @@ function Login() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="user-form-group">
             <input
               type="password"
               value={password}
@@ -80,23 +81,21 @@ function Login() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ width: "100%", marginBottom: "1rem" }}
-            disabled={loading}
-          >
-            {loading ? "Signing In..." : "Sign In"}
+          <button type="submit" className="user-auth-button" disabled={loading}>
+            {loading ? "Signing In..." : "🚀 Sign In"}
           </button>
         </form>
 
-        <div style={{ textAlign: "center", color: "#666" }}>
-          Don't have an account?{" "}
-          <Link
-            to="/register"
-            style={{ color: "#667eea", textDecoration: "none" }}
-          >
+        <div className="user-auth-footer">
+          <p>Don't have an account?</p>
+          <Link to="/register" className="user-link-button">
             Sign up here
+          </Link>
+        </div>
+
+        <div className="user-nav-links">
+          <Link to="/" className="user-back-button">
+            ← Back to Store
           </Link>
         </div>
       </div>

@@ -7,6 +7,7 @@ function Navbar() {
   const location = useLocation();
   const { cartItemCount, clearCart } = useCart();
   const token = localStorage.getItem("token");
+  const [searchQuery, setSearchQuery] = useState("");
   // Try to get user name from localStorage (set after login/profile fetch)
   const [userName, setUserName] = useState("");
 
@@ -24,7 +25,6 @@ function Navbar() {
       setUserName("");
     }
   }, [token]);
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Update search query when URL changes
   useEffect(() => {
@@ -98,9 +98,26 @@ function Navbar() {
           <Link to="/orders">Orders</Link>
           {token ? (
             <>
-              <Link to="/profile" className="profile-link" style={{ display: "flex", flexDirection: "column", alignItems: "center", textDecoration: "none" }}>
+              <Link
+                to="/profile"
+                className="profile-link"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textDecoration: "none",
+                }}
+              >
                 <span style={{ fontSize: "1.7rem", display: "block" }}>👤</span>
-                <span style={{ fontSize: "0.9rem", color: "#333", marginTop: "0.1rem" }}>{userName || "Profile"}</span>
+                <span
+                  style={{
+                    fontSize: "0.9rem",
+                    color: "#333",
+                    marginTop: "0.1rem",
+                  }}
+                >
+                  {userName || "Profile"}
+                </span>
               </Link>
               <button onClick={handleLogout} className="btn btn-danger">
                 Logout

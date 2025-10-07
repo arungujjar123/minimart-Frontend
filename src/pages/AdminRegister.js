@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import "./admin-register.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -80,17 +81,18 @@ function AdminRegister() {
   };
 
   return (
-    <div className="admin-auth-container">
-      <div className="admin-auth-card">
-        <div className="admin-auth-header">
-          <h2>Admin Registration</h2>
-          <p>Create a new admin account</p>
+    <div className="admin-form-page">
+      <div className="admin-form-container">
+        <div className="admin-form-header">
+          <div className="admin-form-icon">👥</div>
+          <h2 className="admin-form-title">Admin Registration</h2>
+          <p className="admin-form-subtitle">Create a new admin account</p>
         </div>
 
-        {error && <div className="admin-error-message">{error}</div>}
+        {error && <div className="admin-auth-error">{error}</div>}
         {success && <div className="admin-success-message">{success}</div>}
 
-        <form onSubmit={handleSubmit} className="admin-auth-form">
+        <form onSubmit={handleSubmit}>
           <div className="admin-form-group">
             <label>Full Name</label>
             <input
@@ -159,7 +161,7 @@ function AdminRegister() {
             className="admin-auth-button"
             disabled={loading}
           >
-            {loading ? "Creating Account..." : "Register as Admin"}
+            {loading ? "Creating Account..." : "🚀 Register as Admin"}
           </button>
         </form>
 
@@ -173,14 +175,10 @@ function AdminRegister() {
           </button>
         </div>
 
-        <div className="admin-demo-info">
-          <h4>Demo Information:</h4>
-          <p>
-            <strong>Secret Key:</strong> MINIMART_ADMIN_2024
-          </p>
-          <p>
-            <em>For demonstration purposes only</em>
-          </p>
+        <div className="admin-nav-links">
+          <button onClick={() => navigate("/")} className="admin-back-button">
+            ← Back to Store
+          </button>
         </div>
       </div>
     </div>

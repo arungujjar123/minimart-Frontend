@@ -41,7 +41,27 @@ function ProductCarousel({ products }) {
   };
 
   if (!products || products.length === 0) {
-    return <div>No products available</div>;
+    return (
+      <div className="carousel-container">
+        <div className="carousel-header">
+          <h2>🔥 Featured Products</h2>
+          <p>Loading amazing products...</p>
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "2rem",
+            color: "#666",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "8px",
+            margin: "1rem 0",
+          }}
+        >
+          <p>No featured products available at the moment.</p>
+          <p>Check back later for amazing deals!</p>
+        </div>
+      </div>
+    );
   }
 
   const currentProduct = products[currentIndex];
@@ -50,7 +70,7 @@ function ProductCarousel({ products }) {
     <div className="carousel-container">
       <div className="carousel-header">
         <h2>🔥 Featured Products</h2>
-        <p>Swipe through our amazing collection</p>
+        <p>Discover products from different categories</p>
       </div>
 
       <div className="carousel-wrapper">
@@ -91,6 +111,22 @@ function ProductCarousel({ products }) {
               <div className="carousel-info">
                 <h3>{currentProduct.name}</h3>
                 <p>{currentProduct.description}</p>
+                {currentProduct.category && (
+                  <div
+                    className="carousel-category"
+                    style={{
+                      background: "#e3f2fd",
+                      color: "#1976d2",
+                      padding: "4px 8px",
+                      borderRadius: "12px",
+                      fontSize: "0.8rem",
+                      marginBottom: "8px",
+                      display: "inline-block",
+                    }}
+                  >
+                    {currentProduct.category}
+                  </div>
+                )}
                 <div className="carousel-price">${currentProduct.price}</div>
               </div>
             </Link>

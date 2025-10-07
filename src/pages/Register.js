@@ -30,10 +30,13 @@ function Register() {
     }
 
     try {
-      await axios.post("https://vercel-backend-zeta-green.vercel.app/api/auth/register", {
-        email,
-        password,
-      });
+      await axios.post(
+        "https://vercel-backend-zeta-green.vercel.app/api/auth/register",
+        {
+          email,
+          password,
+        }
+      );
 
       setSuccess("Account created successfully! Redirecting to login...");
       setTimeout(() => {
@@ -50,19 +53,21 @@ function Register() {
   };
 
   return (
-    <div className="container fade-in">
-      <div className="form-container">
-        <h2>Join MiniMart! 🚀</h2>
-        <p style={{ textAlign: "center", color: "#666", marginBottom: "2rem" }}>
-          Create your account to start shopping
-        </p>
+    <div className="user-form-page">
+      <div className="user-form-container">
+        <div className="user-form-header">
+          <div className="user-form-icon">🚀</div>
+          <h2 className="user-form-title">Join MiniMart!</h2>
+          <p className="user-form-subtitle">
+            Create your account to start shopping
+          </p>
+        </div>
 
-        {error && <div className="error-message">{error}</div>}
-
-        {success && <div className="success-message">{success}</div>}
+        {error && <div className="user-auth-error">{error}</div>}
+        {success && <div className="user-success-message">{success}</div>}
 
         <form onSubmit={handleRegister}>
-          <div className="form-group">
+          <div className="user-form-group">
             <input
               type="email"
               value={email}
@@ -73,7 +78,7 @@ function Register() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="user-form-group">
             <input
               type="password"
               value={password}
@@ -85,7 +90,7 @@ function Register() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="user-form-group">
             <input
               type="password"
               value={confirmPassword}
@@ -96,23 +101,21 @@ function Register() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="btn btn-success"
-            style={{ width: "100%", marginBottom: "1rem" }}
-            disabled={loading}
-          >
-            {loading ? "Creating Account..." : "Create Account"}
+          <button type="submit" className="user-auth-button" disabled={loading}>
+            {loading ? "Creating Account..." : "🎉 Create Account"}
           </button>
         </form>
 
-        <div style={{ textAlign: "center", color: "#666" }}>
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            style={{ color: "#667eea", textDecoration: "none" }}
-          >
+        <div className="user-auth-footer">
+          <p>Already have an account?</p>
+          <Link to="/login" className="user-link-button">
             Sign in here
+          </Link>
+        </div>
+
+        <div className="user-nav-links">
+          <Link to="/" className="user-back-button">
+            ← Back to Store
           </Link>
         </div>
       </div>
