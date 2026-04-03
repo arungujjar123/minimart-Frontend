@@ -74,7 +74,8 @@ function ProductDetail() {
       {message && (
         <div
           className={
-            message.includes("🎉") || message.includes("successfully")
+            message.toLowerCase().includes("success") ||
+            message.toLowerCase().includes("added")
               ? "success-message"
               : "error-message"
           }
@@ -123,7 +124,7 @@ function ProductDetail() {
               style={{ flex: 1 }}
               disabled={addingToCart}
             >
-              {addingToCart ? "Adding..." : "Add to Cart 🛒"}
+              {addingToCart ? "Adding..." : "Add to Cart"}
             </button>
             <button onClick={() => navigate("/")} className="btn btn-primary">
               Continue Shopping

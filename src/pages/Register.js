@@ -35,7 +35,7 @@ function Register() {
         {
           email,
           password,
-        }
+        },
       );
 
       setSuccess("Account created successfully! Redirecting to login...");
@@ -45,7 +45,7 @@ function Register() {
     } catch (err) {
       console.error("Registration error:", err);
       setError(
-        err.response?.data?.message || "Registration failed. Please try again."
+        err.response?.data?.message || "Registration failed. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -56,8 +56,8 @@ function Register() {
     <div className="user-form-page">
       <div className="user-form-container">
         <div className="user-form-header">
-          <div className="user-form-icon">🚀</div>
-          <h2 className="user-form-title">Join MiniMart!</h2>
+          <div className="user-form-icon">QB</div>
+          <h2 className="user-form-title">Join QuickBazaar!</h2>
           <p className="user-form-subtitle">
             Create your account to start shopping
           </p>
@@ -102,7 +102,7 @@ function Register() {
           </div>
 
           <button type="submit" className="user-auth-button" disabled={loading}>
-            {loading ? "Creating Account..." : "🎉 Create Account"}
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 

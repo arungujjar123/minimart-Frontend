@@ -10,6 +10,9 @@ function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   // Try to get user name from localStorage (set after login/profile fetch)
   const [userName, setUserName] = useState("");
+  const profileInitial = userName
+    ? userName.trim().charAt(0).toUpperCase()
+    : "U";
 
   useEffect(() => {
     // Try to get user name from localStorage (should be set after login/profile fetch)
@@ -70,27 +73,27 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-content">
         <Link to="/" className="navbar-brand">
-          🛒 MiniMart
+          QuickBazaar
         </Link>
 
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="search-form">
           <input
             type="text"
-            placeholder="Search products... (live search)"
+            placeholder="Search products"
             value={searchQuery}
             onChange={handleSearchInputChange}
             className="search-input"
           />
           <button type="submit" className="search-btn">
-            🔍
+            Search
           </button>
         </form>
 
         <div className="navbar-links">
           <Link to="/">Home</Link>
           <Link to="/cart" className="cart-link">
-            Cart 🛒
+            Cart
             {cartItemCount > 0 && (
               <span className="cart-badge">{cartItemCount}</span>
             )}
@@ -98,26 +101,9 @@ function Navbar() {
           <Link to="/orders">Orders</Link>
           {token ? (
             <>
-              <Link
-                to="/profile"
-                className="profile-link"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textDecoration: "none",
-                }}
-              >
-                <span style={{ fontSize: "1.7rem", display: "block" }}>👤</span>
-                <span
-                  style={{
-                    fontSize: "0.9rem",
-                    color: "#333",
-                    marginTop: "0.1rem",
-                  }}
-                >
-                  {userName || "Profile"}
-                </span>
+              <Link to="/profile" className="profile-link">
+                <span className="profile-avatar">{profileInitial}</span>
+                <span className="profile-name">{userName || "Profile"}</span>
               </Link>
               <button onClick={handleLogout} className="btn btn-danger">
                 Logout

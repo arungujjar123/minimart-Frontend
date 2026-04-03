@@ -7,44 +7,43 @@ function PromoCarousel() {
   const promoSlides = [
     {
       id: 1,
-      title: "Welcome to MiniMart! 🛒",
-      subtitle: "Your One-Stop Shopping Destination",
-      description:
-        "Discover amazing products at unbeatable prices with fast delivery",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      emoji: "🎉",
+      title: "Today's Highlights",
+      subtitle: "Top Picks You Will Love",
+      description: "Fresh arrivals, smart deals, and fast delivery",
+      background: "linear-gradient(135deg, #f4a261 0%, #e76f51 100%)",
+      emoji: "",
     },
     {
       id: 2,
-      title: "🪔 Diwali Special Offer! 🪔",
-      subtitle: "20% OFF on All Products",
+      title: "Seasonal Offer",
+      subtitle: "20% OFF on Best Sellers",
       description: "Celebrate the festival of lights with amazing discounts",
-      background: "linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)",
-      emoji: "🎆",
+      background: "linear-gradient(135deg, #f6d365 0%, #fda085 100%)",
+      emoji: "",
     },
     {
       id: 3,
-      title: "Free Shipping! 🚚",
+      title: "Free Shipping",
       subtitle: "On Orders Above $50",
       description: "Get your favorite products delivered for free",
-      background: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
-      emoji: "📦",
+      background: "linear-gradient(135deg, #f7b267 0%, #f79d65 100%)",
+      emoji: "",
     },
     {
       id: 4,
-      title: "New Arrivals! ✨",
+      title: "New Arrivals",
       subtitle: "Latest Tech & Gadgets",
       description: "Check out our newest collection of premium products",
-      background: "linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)",
-      emoji: "🆕",
+      background: "linear-gradient(135deg, #e9c46a 0%, #f4a261 100%)",
+      emoji: "",
     },
     {
       id: 5,
-      title: "Customer Reviews! ⭐",
+      title: "Customer Reviews",
       subtitle: "4.8/5 Rating from 1000+ Customers",
       description: "Join thousands of satisfied customers worldwide",
-      background: "linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%)",
-      emoji: "❤️",
+      background: "linear-gradient(135deg, #e76f51 0%, #f4a261 100%)",
+      emoji: "",
     },
   ];
 
@@ -52,7 +51,7 @@ function PromoCarousel() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
-        prevIndex === promoSlides.length - 1 ? 0 : prevIndex + 1
+        prevIndex === promoSlides.length - 1 ? 0 : prevIndex + 1,
       );
     }, 5000); // Change slide every 5 seconds
 
@@ -65,13 +64,13 @@ function PromoCarousel() {
 
   const goToPrevious = () => {
     setCurrentIndex(
-      currentIndex === 0 ? promoSlides.length - 1 : currentIndex - 1
+      currentIndex === 0 ? promoSlides.length - 1 : currentIndex - 1,
     );
   };
 
   const goToNext = () => {
     setCurrentIndex(
-      currentIndex === promoSlides.length - 1 ? 0 : currentIndex + 1
+      currentIndex === promoSlides.length - 1 ? 0 : currentIndex + 1,
     );
   };
 
@@ -90,7 +89,9 @@ function PromoCarousel() {
           </button>
 
           <div className="promo-content">
-            <div className="promo-emoji">{currentSlide.emoji}</div>
+            {currentSlide.emoji && (
+              <div className="promo-emoji">{currentSlide.emoji}</div>
+            )}
             <h1 className="promo-title">{currentSlide.title}</h1>
             <h2 className="promo-subtitle">{currentSlide.subtitle}</h2>
             <p className="promo-description">{currentSlide.description}</p>

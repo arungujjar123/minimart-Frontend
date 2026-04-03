@@ -37,7 +37,7 @@ function Orders() {
   const handleDeleteOrder = async (orderId) => {
     if (
       !window.confirm(
-        "Are you sure you want to delete this order? This action cannot be undone."
+        "Are you sure you want to delete this order? This action cannot be undone.",
       )
     ) {
       return;
@@ -47,9 +47,12 @@ function Orders() {
     setDeletingOrderId(orderId);
 
     try {
-      await axios.delete(`https://vercel-backend-zeta-green.vercel.app/api/orders/${orderId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://vercel-backend-zeta-green.vercel.app/api/orders/${orderId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       // Remove the deleted order from the state
       setOrders(orders.filter((order) => order._id !== orderId));
@@ -83,7 +86,7 @@ function Orders() {
   return (
     <div className="container fade-in">
       <h2 style={{ textAlign: "center", marginBottom: "2rem", color: "#333" }}>
-        Your Order History 📋
+        Your Order History
       </h2>
 
       {orders.length === 0 ? (
@@ -123,7 +126,7 @@ function Orders() {
                     style={{
                       fontSize: "1.3rem",
                       fontWeight: "bold",
-                      color: "#667eea",
+                      color: "var(--accent-3)",
                     }}
                   >
                     $
@@ -141,9 +144,7 @@ function Orders() {
                       opacity: deletingOrderId === order._id ? 0.6 : 1,
                     }}
                   >
-                    {deletingOrderId === order._id
-                      ? "Deleting..."
-                      : "🗑️ Delete"}
+                    {deletingOrderId === order._id ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               </div>

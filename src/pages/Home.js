@@ -17,6 +17,68 @@ function Home() {
   const [maxPrice, setMaxPrice] = useState(1000);
   const [showFilters, setShowFilters] = useState(false);
   const location = useLocation();
+  const fallbackImages = {
+    electronics:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    smartphone:
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
+    laptop:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
+    audio:
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    accessories:
+      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=80",
+    wearables:
+      "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=900&q=80",
+    gaming:
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
+    books:
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80",
+    clothing:
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80",
+    home: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80",
+    sports:
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80",
+    beauty:
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80",
+    automotive:
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80",
+    default:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
+  };
+
+  const getCategoryFallback = (category) => {
+    const key = (category || "").toLowerCase();
+
+    if (key.includes("phone")) return fallbackImages.smartphone;
+    if (key.includes("laptop")) return fallbackImages.laptop;
+    if (key.includes("audio") || key.includes("headphone"))
+      return fallbackImages.audio;
+    if (key.includes("accessor")) return fallbackImages.accessories;
+    if (key.includes("wearable") || key.includes("watch"))
+      return fallbackImages.wearables;
+    if (key.includes("gaming") || key.includes("game"))
+      return fallbackImages.gaming;
+    if (key.includes("book")) return fallbackImages.books;
+    if (key.includes("cloth") || key.includes("fashion"))
+      return fallbackImages.clothing;
+    if (key.includes("home") || key.includes("garden"))
+      return fallbackImages.home;
+    if (key.includes("sport") || key.includes("fitness"))
+      return fallbackImages.sports;
+    if (key.includes("beauty") || key.includes("personal"))
+      return fallbackImages.beauty;
+    if (key.includes("auto") || key.includes("car"))
+      return fallbackImages.automotive;
+    if (key.includes("electronic")) return fallbackImages.electronics;
+
+    return fallbackImages.default;
+  };
+
+  const getProductImage = (product) =>
+    product?.imageUrl ||
+    product?.image ||
+    getCategoryFallback(product?.category);
 
   // Fetch all products on initial load
   useEffect(() => {
@@ -25,7 +87,7 @@ function Home() {
       try {
         const [productsResponse, categoriesResponse] = await Promise.all([
           axios.get(
-            "https://vercel-backend-zeta-green.vercel.app/api/products"
+            "https://vercel-backend-zeta-green.vercel.app/api/products",
           ),
           axios
             .get(
@@ -37,7 +99,7 @@ function Home() {
                     localStorage.getItem("adminToken") || ""
                   }`,
                 },
-              }
+              },
             )
             .catch(() => ({ data: [] })), // Fallback if no admin access
         ]);
@@ -76,11 +138,11 @@ function Home() {
         ) {
           const usedIds = featured.map((p) => p._id);
           const remainingProducts = allProducts.filter(
-            (p) => !usedIds.includes(p._id)
+            (p) => !usedIds.includes(p._id),
           );
           const remainingCount = Math.min(
             maxProducts - featured.length,
-            remainingProducts.length
+            remainingProducts.length,
           );
 
           for (let i = 0; i < remainingCount; i++) {
@@ -94,7 +156,7 @@ function Home() {
         // Calculate max price from products
         if (productsResponse.data.length > 0) {
           const maxProductPrice = Math.max(
-            ...productsResponse.data.map((p) => p.price)
+            ...productsResponse.data.map((p) => p.price),
           );
           setMaxPrice(Math.ceil(maxProductPrice));
           setPriceRange([0, Math.ceil(maxProductPrice)]);
@@ -143,14 +205,14 @@ function Home() {
           product.category &&
           product.category
             .toLowerCase()
-            .includes(selectedCategory.toLowerCase())
+            .includes(selectedCategory.toLowerCase()),
       );
     }
 
     // Apply price filter
     filtered = filtered.filter(
       (product) =>
-        product.price >= priceRange[0] && product.price <= priceRange[1]
+        product.price >= priceRange[0] && product.price <= priceRange[1],
     );
 
     // Apply search filter if there's a search query
@@ -161,7 +223,7 @@ function Home() {
           product.description
             ?.toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
-          product.category?.toLowerCase().includes(searchQuery.toLowerCase())
+          product.category?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
 
@@ -214,8 +276,8 @@ function Home() {
       try {
         const response = await axios.get(
           `https://vercel-backend-zeta-green.vercel.app/api/products/search?q=${encodeURIComponent(
-            query
-          )}`
+            query,
+          )}`,
         );
         setProducts(response.data);
       } catch (error) {
@@ -225,7 +287,7 @@ function Home() {
         setSearching(false);
       }
     },
-    [allProducts]
+    [allProducts],
   );
 
   if (loading) {
@@ -238,17 +300,14 @@ function Home() {
 
   return (
     <div className="fade-in">
-      {/* Only show promotional carousel when not searching */}
-      {!searchQuery && <PromoCarousel />}
-
       <div className="container">
         {searchQuery ? (
           <div className="search-results-header">
-            <h1>Search Results for "{searchQuery}" 🔍</h1>
+            <h1>Search Results for "{searchQuery}"</h1>
             {searching && (
               <div
                 style={{
-                  color: "#667eea",
+                  color: "var(--accent-3)",
                   fontSize: "0.9rem",
                   marginTop: "1rem",
                   display: "flex",
@@ -263,7 +322,7 @@ function Home() {
                     width: "16px",
                     height: "16px",
                     border: "2px solid #f3f3f3",
-                    borderTop: "2px solid #667eea",
+                    borderTop: "2px solid var(--accent)",
                     borderRadius: "50%",
                     animation: "spin 1s linear infinite",
                   }}
@@ -275,25 +334,12 @@ function Home() {
         ) : (
           <>
             <div className="homepage-welcome">
-              <h1>Welcome to MiniMart 🛒</h1>
+              <h1>Welcome to QuickBazaar</h1>
               <p>Discover amazing products at unbeatable prices!</p>
             </div>
 
-            {/* Admin Access Section */}
-            <div className="admin-access-banner">
-              <div className="admin-banner-content">
-                <h3>🔧 Admin Access</h3>
-                <p>Manage your store, products, and orders</p>
-                <div className="admin-banner-buttons">
-                  <Link to="/admin/login" className="btn btn-warning">
-                    Admin Login
-                  </Link>
-                  <Link to="/admin/register" className="btn btn-info">
-                    Register as Admin
-                  </Link>
-                </div>
-              </div>
-            </div>
+            {/* Only show promotional carousel when not searching */}
+            <PromoCarousel />
           </>
         )}
 
@@ -309,15 +355,12 @@ function Home() {
             }}
           >
             <button
-              className="btn btn-outline"
+              className={`btn btn-outline filter-toggle ${
+                showFilters ? "active" : ""
+              }`}
               onClick={() => setShowFilters(!showFilters)}
-              style={{
-                background: showFilters ? "#667eea" : "transparent",
-                color: showFilters ? "white" : "#667eea",
-                border: "1px solid #667eea",
-              }}
             >
-              {showFilters ? "Hide Filters" : "Show Filters"} 🔍
+              {showFilters ? "Hide Filters" : "Show Filters"}
             </button>
             {(selectedCategory ||
               priceRange[0] > 0 ||
@@ -326,11 +369,11 @@ function Home() {
                 className="btn btn-outline"
                 onClick={clearFilters}
                 style={{
-                  color: "#e74c3c",
-                  border: "1px solid #e74c3c",
+                  color: "var(--danger)",
+                  border: "1px solid var(--danger)",
                 }}
               >
-                Clear Filters ✖️
+                Clear Filters
               </button>
             )}
             <span style={{ color: "#666", fontSize: "0.9rem" }}>
@@ -470,23 +513,20 @@ function Home() {
                     (window.location.href = `/product/${product._id}`)
                   }
                 >
-                  {product.imageUrl || product.image ? (
-                    <img
-                      src={product.imageUrl || product.image}
-                      alt={product.name}
-                      className="product-image"
-                      onError={(e) => {
-                        e.target.style.display = "none";
-                        e.target.nextSibling.style.display = "flex";
-                      }}
-                    />
-                  ) : null}
+                  <img
+                    src={getProductImage(product)}
+                    alt={product.name}
+                    className="product-image"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = getCategoryFallback(
+                        product?.category,
+                      );
+                    }}
+                  />
                   <div
                     className="product-image-fallback"
-                    style={{
-                      display:
-                        product.imageUrl || product.image ? "none" : "flex",
-                    }}
+                    style={{ display: "none" }}
                   >
                     📦
                   </div>

@@ -23,13 +23,16 @@ export const CartProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get("https://vercel-backend-zeta-green.vercel.app/api/cart", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://vercel-backend-zeta-green.vercel.app/api/cart",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       const totalItems = response.data.items.reduce(
         (total, item) => total + item.quantity,
-        0
+        0,
       );
       setCartItemCount(totalItems);
       setCart(response.data);
@@ -56,7 +59,7 @@ export const CartProvider = ({ children }) => {
       const response = await axios.post(
         "https://vercel-backend-zeta-green.vercel.app/api/cart/add",
         { productId, quantity },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       // Update local state with the response
@@ -67,8 +70,7 @@ export const CartProvider = ({ children }) => {
       await fetchCartCount(); // Refresh cart count to ensure accuracy
       return {
         success: true,
-        message:
-          response.data.message || "Product added to cart successfully! 🎉",
+        message: response.data.message || "Product added to cart successfully!",
       };
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -99,7 +101,7 @@ export const CartProvider = ({ children }) => {
       const response = await axios.post(
         "https://vercel-backend-zeta-green.vercel.app/api/cart/remove",
         { productId },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       // Update local state with the response
@@ -141,7 +143,7 @@ export const CartProvider = ({ children }) => {
       const response = await axios.post(
         "https://vercel-backend-zeta-green.vercel.app/api/cart/update",
         { productId, quantity },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       // Update local state with the response

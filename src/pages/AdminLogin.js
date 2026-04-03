@@ -20,7 +20,7 @@ function AdminLogin() {
     try {
       const response = await axios.post(
         "https://vercel-backend-zeta-green.vercel.app/api/admin/login",
-        credentials
+        credentials,
       );
       localStorage.setItem("adminToken", response.data.token);
       navigate("/admin/dashboard");
@@ -52,7 +52,7 @@ function AdminLogin() {
                 setCredentials({ ...credentials, email: e.target.value })
               }
               required
-              placeholder="admin@minimart.com"
+              placeholder="admin@quickbazaar.com"
             />
           </div>
 

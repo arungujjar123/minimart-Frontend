@@ -34,7 +34,7 @@ function AdminDashboard() {
         "https://vercel-backend-zeta-green.vercel.app/api/admin/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       // Safely extract stats and recentOrders from response
@@ -126,7 +126,11 @@ function AdminDashboard() {
               Total Products
             </h3>
             <p
-              style={{ fontSize: "2rem", fontWeight: "bold", color: "#667eea" }}
+              style={{
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "var(--accent-3)",
+              }}
             >
               {stats.totalProducts || 0}
             </p>
@@ -138,7 +142,11 @@ function AdminDashboard() {
               Total Orders
             </h3>
             <p
-              style={{ fontSize: "2rem", fontWeight: "bold", color: "#667eea" }}
+              style={{
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "var(--accent-3)",
+              }}
             >
               {stats.totalOrders || 0}
             </p>
@@ -150,7 +158,11 @@ function AdminDashboard() {
               Total Users
             </h3>
             <p
-              style={{ fontSize: "2rem", fontWeight: "bold", color: "#667eea" }}
+              style={{
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "var(--accent-3)",
+              }}
             >
               {stats.totalUsers || 0}
             </p>
@@ -174,7 +186,11 @@ function AdminDashboard() {
               Total Revenue
             </h3>
             <p
-              style={{ fontSize: "2rem", fontWeight: "bold", color: "#667eea" }}
+              style={{
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "var(--accent-3)",
+              }}
             >
               ${(stats.totalRevenue || 0).toFixed(2)}
             </p>

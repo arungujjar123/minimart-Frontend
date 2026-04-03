@@ -35,7 +35,7 @@ function Profile() {
         "https://vercel-backend-zeta-green.vercel.app/api/auth/profile",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       setUser(response.data);
       // Store user in localStorage for navbar
@@ -63,7 +63,7 @@ function Profile() {
         user,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       // Update user in localStorage after profile update
       localStorage.setItem("user", JSON.stringify(user));
@@ -100,7 +100,7 @@ function Profile() {
         },
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       alert("Password changed successfully!");
       setPasswords({
@@ -128,7 +128,7 @@ function Profile() {
   return (
     <div className="container fade-in">
       <h2 style={{ textAlign: "center", marginBottom: "2rem", color: "#333" }}>
-        👤 My Profile
+        My Profile
       </h2>
 
       <div style={{ maxWidth: "600px", margin: "0 auto" }}>
@@ -138,7 +138,7 @@ function Profile() {
             style={{
               color: "#333",
               marginBottom: "1.5rem",
-              borderBottom: "2px solid #667eea",
+              borderBottom: "2px solid var(--accent)",
               paddingBottom: "0.5rem",
             }}
           >
@@ -171,7 +171,7 @@ function Profile() {
                   fontSize: "1rem",
                   transition: "border-color 0.3s ease",
                 }}
-                onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+                onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
                 onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
               />
             </div>
@@ -201,7 +201,7 @@ function Profile() {
                   fontSize: "1rem",
                   transition: "border-color 0.3s ease",
                 }}
-                onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+                onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
                 onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
               />
             </div>
@@ -231,7 +231,7 @@ function Profile() {
                   fontSize: "1rem",
                   transition: "border-color 0.3s ease",
                 }}
-                onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+                onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
                 onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
               />
             </div>
@@ -258,7 +258,7 @@ function Profile() {
             style={{
               color: "#333",
               marginBottom: "1.5rem",
-              borderBottom: "2px solid #667eea",
+              borderBottom: "2px solid var(--accent)",
               paddingBottom: "0.5rem",
             }}
           >
@@ -271,7 +271,7 @@ function Profile() {
               className="btn btn-success"
               style={{ width: "100%" }}
             >
-              🔐 Change Password
+              Change Password
             </button>
           ) : (
             <form onSubmit={handlePasswordChange}>
@@ -305,7 +305,9 @@ function Profile() {
                     fontSize: "1rem",
                     transition: "border-color 0.3s ease",
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+                  onFocus={(e) =>
+                    (e.target.style.borderColor = "var(--accent)")
+                  }
                   onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
                 />
               </div>
@@ -338,7 +340,9 @@ function Profile() {
                     fontSize: "1rem",
                     transition: "border-color 0.3s ease",
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+                  onFocus={(e) =>
+                    (e.target.style.borderColor = "var(--accent)")
+                  }
                   onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
                 />
               </div>
@@ -374,7 +378,9 @@ function Profile() {
                     fontSize: "1rem",
                     transition: "border-color 0.3s ease",
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+                  onFocus={(e) =>
+                    (e.target.style.borderColor = "var(--accent)")
+                  }
                   onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
                 />
               </div>
@@ -425,10 +431,10 @@ function Profile() {
             onClick={() => navigate("/orders")}
             className="btn btn-success"
           >
-            📋 My Orders
+            My Orders
           </button>
           <button onClick={() => navigate("/")} className="btn btn-primary">
-            🛒 Continue Shopping
+            Continue Shopping
           </button>
         </div>
       </div>

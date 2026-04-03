@@ -102,7 +102,7 @@ function Cart() {
   return (
     <div className="container fade-in">
       <h2 style={{ textAlign: "center", marginBottom: "2rem", color: "#333" }}>
-        Your Shopping Cart 🛒
+        Your Shopping Cart
       </h2>
 
       {message && <div className="success-message">{message}</div>}
@@ -135,7 +135,7 @@ function Cart() {
                       onClick={() =>
                         handleUpdateQuantity(
                           item.product._id,
-                          item.quantity - 1
+                          item.quantity - 1,
                         )
                       }
                       className="quantity-btn"
@@ -157,7 +157,7 @@ function Cart() {
                       onClick={() =>
                         handleUpdateQuantity(
                           item.product._id,
-                          item.quantity + 1
+                          item.quantity + 1,
                         )
                       }
                       className="quantity-btn"

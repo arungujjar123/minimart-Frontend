@@ -20,7 +20,7 @@ function Login() {
         {
           email,
           password,
-        }
+        },
       );
 
       localStorage.setItem("token", response.data.token);
@@ -29,7 +29,7 @@ function Login() {
       try {
         const profileRes = await axios.get(
           "https://vercel-backend-zeta-green.vercel.app/api/auth/profile",
-          { headers: { Authorization: `Bearer ${response.data.token}` } }
+          { headers: { Authorization: `Bearer ${response.data.token}` } },
         );
         localStorage.setItem("user", JSON.stringify(profileRes.data));
       } catch {
@@ -40,7 +40,7 @@ function Login() {
     } catch (err) {
       console.error("Login error:", err);
       setError(
-        err.response?.data?.message || "Login failed. Please try again."
+        err.response?.data?.message || "Login failed. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -51,7 +51,7 @@ function Login() {
     <div className="user-form-page">
       <div className="user-form-container">
         <div className="user-form-header">
-          <div className="user-form-icon">👋</div>
+          <div className="user-form-icon">QB</div>
           <h2 className="user-form-title">Welcome Back!</h2>
           <p className="user-form-subtitle">Sign in to your account</p>
         </div>
@@ -82,7 +82,7 @@ function Login() {
           </div>
 
           <button type="submit" className="user-auth-button" disabled={loading}>
-            {loading ? "Signing In..." : "🚀 Sign In"}
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 

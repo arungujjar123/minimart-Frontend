@@ -45,7 +45,7 @@ function AdminOrders() {
         "https://vercel-backend-zeta-green.vercel.app/api/admin/orders",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       setOrders(response.data);
       setLoading(false);
@@ -69,14 +69,14 @@ function AdminOrders() {
         { order_status: newStatus },
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       // Update local state
       setOrders(
         orders.map((order) =>
-          order._id === orderId ? { ...order, order_status: newStatus } : order
-        )
+          order._id === orderId ? { ...order, order_status: newStatus } : order,
+        ),
       );
 
       alert(`Order status updated to ${newStatus}`);
@@ -158,7 +158,7 @@ function AdminOrders() {
               style={{
                 fontSize: "1.5rem",
                 fontWeight: "bold",
-                color: "#667eea",
+                color: "var(--accent-3)",
               }}
             >
               {orders.length}
@@ -175,7 +175,7 @@ function AdminOrders() {
             >
               {
                 orders.filter(
-                  (o) => o.order_status === "pending" || !o.order_status
+                  (o) => o.order_status === "pending" || !o.order_status,
                 ).length
               }
             </p>
@@ -233,7 +233,7 @@ function AdminOrders() {
                       style={{
                         fontSize: "1.3rem",
                         fontWeight: "bold",
-                        color: "#667eea",
+                        color: "var(--accent-3)",
                         marginBottom: "0.5rem",
                       }}
                     >
@@ -268,7 +268,7 @@ function AdminOrders() {
                       <div
                         style={{
                           fontSize: "0.8rem",
-                          color: "#667eea",
+                          color: "var(--accent-3)",
                           marginTop: "0.25rem",
                         }}
                       >
@@ -343,7 +343,12 @@ function AdminOrders() {
                             </div>
                           </div>
                         </div>
-                        <div style={{ fontWeight: "bold", color: "#667eea" }}>
+                        <div
+                          style={{
+                            fontWeight: "bold",
+                            color: "var(--accent-3)",
+                          }}
+                        >
                           $
                           {item.product?.price
                             ? (item.product.price * item.quantity).toFixed(2)
